@@ -1,6 +1,6 @@
 # openbb_akshare
 
-[![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.12--3.14.3-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-green.svg)](LICENSE)
 
 ## How to Use AKShare as a Data Source for OpenBB
@@ -58,14 +58,15 @@ As developers, we primarily interact with the platform through the OpenBB Platfo
 
 3. **Install openbb_akshare**
 
-   Next, install the `openbb_akshare` extenstion to use the AKShare data source:
+   Next, install the local `openbb_akshare` extension to use the AKShare data source:
 
    ```bash
-   # Install the AKShare data source extension
-      pip install openbb_akshare
-   
-      # Rebuild OpenBB resources to activate the plugin
-      python -c "import openbb; openbb.build()"   ```
+   # Install the AKShare data source extension in editable mode
+   pip install -e /Users/reftao/OpenBB/plugins/openbb_akshare
+
+   # Rebuild OpenBB resources to activate the plugin
+   openbb-build
+   ```
 
 ## 🚀 Using the AKShare Data Source
 
@@ -186,15 +187,15 @@ To start the instance in VSCode, update your `launch.json` configuration as belo
 
 ## Requirements
 
-- Python 3.11 or higher
-- OpenBB Platform 4.6.0 or higher
-- AKShare 1.18.19 or higher
+- Python 3.12 through 3.14.3
+- OpenBB Platform 4.7.1 or higher
+- AKShare 1.18.56 or higher
 
 ## Troubleshooting
 
 If you encounter issues during installation or usage:
 
-1. **Build issues**: Make sure to run `python -c "import openbb; openbb.build()"` after installing the extension
+1. **Build issues**: Make sure to run `openbb-build` after installing the extension
 2. **Data not loading**: Verify your internet connection and that AKShare APIs are accessible
 3. **Import errors**: Ensure all dependencies are installed correctly in your virtual environment
 4. **For more help**: Visit the [project issues page](https://github.com/finanalyzer/openbb_akshare/issues)

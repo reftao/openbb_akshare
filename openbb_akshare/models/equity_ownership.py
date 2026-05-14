@@ -12,7 +12,7 @@ from openbb_core.provider.standard_models.equity_ownership import (
     EquityOwnershipQueryParams,
 )
 from mysharelib.tools import most_recent_quarter
-from pydantic import field_validator
+from pydantic import Field, field_validator
 
 
 class AKShareEquityOwnershipQueryParams(EquityOwnershipQueryParams):
@@ -21,14 +21,26 @@ class AKShareEquityOwnershipQueryParams(EquityOwnershipQueryParams):
     Source: https://emweb.securities.eastmoney.com/PC_HSF10/ShareholderResearch/Index?type=web&code=SH688686#sdgd-0
     """
 
+    date: dateType = Field(
+        default_factory=lambda: most_recent_quarter(dateType.today()),
+        description="Quarter-end date for the ownership report.",
+    )
+
     @field_validator("date", mode="before", check_fields=True)
     @classmethod
-    def time_validate(cls, v: str):
+    def time_validate(cls, v: str | dateType | None):
         """Validate the date."""
         if v is None:
             v = dateType.today()
         if isinstance(v, str):
-            base = datetime.strptime(v, "%Y-%m-%d").date()
+            for fmt in ("%Y%m%d", "%Y-%m-%d"):
+                try:
+                    base = datetime.strptime(v, fmt).date()
+                    break
+                except ValueError:
+                    continue
+            else:
+                raise ValueError("Invalid date format. Use 'YYYY-MM-DD' or 'YYYYMMDD'.")
             return most_recent_quarter(base)
         return most_recent_quarter(v)
 

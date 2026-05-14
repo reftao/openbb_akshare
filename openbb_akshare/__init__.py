@@ -7,10 +7,15 @@ from openbb_akshare.models.available_indices import AKShareAvailableIndicesFetch
 from openbb_akshare.models.balance_sheet import AKShareBalanceSheetFetcher
 from openbb_akshare.models.cash_flow import AKShareCashFlowStatementFetcher
 from openbb_akshare.models.company_news import AKShareCompanyNewsFetcher
+from openbb_akshare.models.economy_consumer_price_index import (
+    AKShareConsumerPriceIndexFetcher,
+)
 from openbb_akshare.models.currency_historical import AKShareCurrencyHistoricalFetcher
 from openbb_akshare.models.currency_snapshots import AKShareCurrencySnapshotsFetcher
+from openbb_akshare.models.economy_money_measures import AKShareMoneyMeasuresFetcher
 from openbb_akshare.models.equity_quote import AKShareEquityQuoteFetcher
 from openbb_akshare.models.equity_historical import AKShareEquityHistoricalFetcher
+from openbb_akshare.models.equity_ownership import AKShareEquityOwnershipFetcher
 from openbb_akshare.models.equity_profile import AKShareEquityProfileFetcher
 from openbb_akshare.models.equity_screener import AKShareEquityScreenerFetcher
 from openbb_akshare.models.equity_search import AKShareEquitySearchFetcher
@@ -28,7 +33,6 @@ from openbb_akshare.models.fund_holdings import AkshareFundHoldingsFetcher
 provider = Provider(
     name="akshare",
     description="Data provider for openbb-akshare.",
-    credentials=["api_key"],
     website="https://akshare.akfamily.xyz/",
     # Here, we list out the fetchers showing what our provider can get.
     # The dictionary key is the fetcher's name, used in the `router.py`.
@@ -37,10 +41,13 @@ provider = Provider(
         "BalanceSheet": AKShareBalanceSheetFetcher,
         "CashFlowStatement": AKShareCashFlowStatementFetcher,
         "CompanyNews": AKShareCompanyNewsFetcher,
+        "ConsumerPriceIndex": AKShareConsumerPriceIndexFetcher,
         "CurrencyHistorical": AKShareCurrencyHistoricalFetcher,
         "CurrencySnapshots": AKShareCurrencySnapshotsFetcher,
+        "MoneyMeasures": AKShareMoneyMeasuresFetcher,
         "EquityQuote": AKShareEquityQuoteFetcher,
         "EquityHistorical": AKShareEquityHistoricalFetcher,
+        "EquityOwnership": AKShareEquityOwnershipFetcher,
         "EquityInfo": AKShareEquityProfileFetcher,
         "EquityScreener": AKShareEquityScreenerFetcher,
         "EquitySearch": AKShareEquitySearchFetcher,

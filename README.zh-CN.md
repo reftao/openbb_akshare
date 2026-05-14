@@ -44,16 +44,16 @@ OpenBB虽支持多个数据源，但中国区（含香港）金融数据获取�
 
 3. 安装openbb_akshare
 
-   接下来，我们需要安装`openbb_akshare`来使用AKShare数据源。
+   接下来，我们需要安装本地的 `openbb_akshare` 来使用 AKShare 数据源。
 
    ```bash
-   pip install openbb_akshare
+   pip install -e /Users/reftao/OpenBB/plugins/openbb_akshare
    ```
 
    安装`openbb_akshare`后，需要重新构建资源让安装生效。
 
    ```bash
-   python -c "import openbb; openbb.build()"
+   openbb-build
    ```
 
 ## 🚀 使用 AKShare 数据源

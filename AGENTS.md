@@ -15,12 +15,12 @@
 
 ### 技术栈
 
-- **Python**: 3.11 - 3.12
+- **Python**: 3.12 - 3.14.3
 - **核心依赖**:
-  - `akshare` (1.18.19): 中国金融数据聚合库
-  - `openbb` (4.6.0): OpenBB Platform 核心库
-  - `openbb-core` (^1.5.8): OpenBB 核心接口
-  - `mysharelib` (^1.0.4): 自定义工具库
+  - `akshare` (1.18.56): 中国金融数据聚合库
+  - `openbb` (4.7.1): OpenBB Platform 核心库
+  - `openbb-core` (^1.6.8): OpenBB 核心接口
+  - `mysharelib` (^1.0.5): 自定义工具库
 - **开发依赖**:
   - `pytest` (9.0.1): 测试框架
   - `ipykernel` (6.30.1): Jupyter 内核
@@ -116,7 +116,7 @@ pip install -e .
 python -c "from openbb_akshare import build; build()"
 
 # 或者使用 OpenBB 的构建命令
-python -c "import openbb; openbb.build()"
+openbb-build
 ```
 
 ### 运行测试
