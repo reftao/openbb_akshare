@@ -117,6 +117,20 @@ prices.results[0].date, prices.results[0].open, prices.results[0].close, prices.
 (datetime.date(2025, 6, 2), 11.28, 11.3, 11.3, 11.14, 10308375)
 ```
 
+### 案例 3：查询中国宏观指标
+
+```Python
+from openbb import obb
+
+m2 = obb.economy.money_measures(provider="akshare", country="china")
+cpi = obb.economy.cpi(provider="akshare", country="china")
+
+dr007 = obb.china_macro.dr007(provider="akshare")
+social_financing = obb.china_macro.social_financing(provider="akshare")
+pmi = obb.china_macro.pmi(provider="akshare")
+northbound_flow = obb.china_macro.northbound_flow(provider="akshare")
+```
+
 ## 🌟 openbb_akshare 项目生态
 
 目前`openbb_akshare`项目正处于活跃开发阶段，欢迎开源社区贡献力量：

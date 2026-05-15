@@ -6,6 +6,12 @@ from openbb_core.provider.abstract.provider import Provider
 from openbb_akshare.models.available_indices import AKShareAvailableIndicesFetcher
 from openbb_akshare.models.balance_sheet import AKShareBalanceSheetFetcher
 from openbb_akshare.models.cash_flow import AKShareCashFlowStatementFetcher
+from openbb_akshare.models.china_dr007 import AKShareChinaDR007Fetcher
+from openbb_akshare.models.china_northbound_flow import AKShareChinaNorthboundFlowFetcher
+from openbb_akshare.models.china_pmi import AKShareChinaPMIFetcher
+from openbb_akshare.models.china_social_financing import (
+    AKShareChinaSocialFinancingFetcher,
+)
 from openbb_akshare.models.company_news import AKShareCompanyNewsFetcher
 from openbb_akshare.models.economy_consumer_price_index import (
     AKShareConsumerPriceIndexFetcher,
@@ -40,6 +46,10 @@ provider = Provider(
         "AvailableIndices": AKShareAvailableIndicesFetcher,
         "BalanceSheet": AKShareBalanceSheetFetcher,
         "CashFlowStatement": AKShareCashFlowStatementFetcher,
+        "ChinaDR007": AKShareChinaDR007Fetcher,
+        "ChinaNorthboundFlow": AKShareChinaNorthboundFlowFetcher,
+        "ChinaPMI": AKShareChinaPMIFetcher,
+        "ChinaSocialFinancing": AKShareChinaSocialFinancingFetcher,
         "CompanyNews": AKShareCompanyNewsFetcher,
         "ConsumerPriceIndex": AKShareConsumerPriceIndexFetcher,
         "CurrencyHistorical": AKShareCurrencyHistoricalFetcher,

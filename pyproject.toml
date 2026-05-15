@@ -29,6 +29,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.plugins."openbb_core_extension"]
 akshare = "openbb_akshare.router:router"
+china_macro = "openbb_akshare.router_china_macro:router"
 
 [tool.poetry.plugins."openbb_provider_extension"]
 akshare = "openbb_akshare:provider"

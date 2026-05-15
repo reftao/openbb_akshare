@@ -125,6 +125,20 @@ Output：
 (datetime.date(2025, 6, 2), 11.28, 11.3, 11.3, 11.14, 10308375)
 ```
 
+### Case 3: Query China Macro Indicators
+
+```Python
+from openbb import obb
+
+m2 = obb.economy.money_measures(provider="akshare", country="china")
+cpi = obb.economy.cpi(provider="akshare", country="china")
+
+dr007 = obb.china_macro.dr007(provider="akshare")
+social_financing = obb.china_macro.social_financing(provider="akshare")
+pmi = obb.china_macro.pmi(provider="akshare")
+northbound_flow = obb.china_macro.northbound_flow(provider="akshare")
+```
+
 ## 🌟 openbb_akshare Project Ecosystem
 
 The `openbb_akshare` project is currently in an active development phase, and contributions from the open-source community are welcome:
