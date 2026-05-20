@@ -156,7 +156,15 @@ class AkshareEtfHoldingsFetcher(
         if fund_portfolio_hold_em_df is None or getattr(fund_portfolio_hold_em_df, "empty", True):
             raise EmptyDataError(f"No ETF holdings data found for symbol '{query.symbol}'.")
 
-        fund_portfolio_hold_em_df.drop(["股票代码", "序号", "code"], axis=1, inplace=True)
+        if "symbol" not in fund_portfolio_hold_em_df.columns and "股票代码" in fund_portfolio_hold_em_df.columns:
+            fund_portfolio_hold_em_df["symbol"] = fund_portfolio_hold_em_df["股票代码"].apply(
+                _format_holding_symbol
+            )
+        fund_portfolio_hold_em_df.drop(
+            columns=["股票代码", "序号", "code"],
+            errors="ignore",
+            inplace=True,
+        )
         fund_portfolio_hold_em_df = fund_portfolio_hold_em_df[fund_portfolio_hold_em_df["季度"].str.contains(str(query.quarter) + "季度")]
         return fund_portfolio_hold_em_df.to_dict(orient="records")
 
@@ -169,12 +177,32 @@ class AkshareEtfHoldingsFetcher(
         """Return the transformed data."""
         # Limited to one alias per field, so we need to do these here.
         for i in data:
-            if "SH" in i["symbol"]:
-                i["symbol"] = i["symbol"].replace("SH", "") + ".SS"
-            elif "SZ" in i["symbol"]:
-                i["symbol"] = i["symbol"].replace("SZ", "") + ".SZ"
-            elif "OF" in i["symbol"]:
-                i["symbol"] = i["symbol"].replace("OF", "") + ".OF"
-            elif "BJ" in i["symbol"]:
-                i["symbol"] = i["symbol"].replace("BJ", "") + ".BJ"
+            symbol = i.get("symbol") or i.get("股票代码")
+            i["symbol"] = _format_holding_symbol(symbol)
         return [AkshareEtfHoldingsData.model_validate(d) for d in data]
+
+
+def _format_holding_symbol(symbol: Any) -> Optional[str]:
+    """Format holding stock symbols to OpenBB/Yahoo-style suffixes."""
+    if symbol is None or pd.isna(symbol):
+        return None
+    value = str(symbol).strip().upper()
+    if not value:
+        return None
+    if value.startswith("SH"):
+        return value.replace("SH", "", 1) + ".SS"
+    if value.startswith("SZ"):
+        return value.replace("SZ", "", 1) + ".SZ"
+    if value.startswith("BJ"):
+        return value.replace("BJ", "", 1) + ".BJ"
+    if value.startswith("OF"):
+        return value.replace("OF", "", 1) + ".OF"
+    if value.endswith((".SS", ".SZ", ".BJ", ".OF")):
+        return value
+    if value.startswith(("6", "9")):
+        return value + ".SS"
+    if value.startswith(("0", "3")):
+        return value + ".SZ"
+    if value.startswith(("4", "8")):
+        return value + ".BJ"
+    return value

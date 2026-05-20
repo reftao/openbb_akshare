@@ -381,30 +381,19 @@ def ak_fund_portfolio_hold_em(
 ) -> DataFrame:
     """Fetch data with custom cache key."""
     import akshare as ak
-    from openbb_akshare.utils.sqlite_cache import SQLiteCache
-    from openbb_core.app.utils import get_user_cache_directory
 
-    symbols_str = symbol + year
+    cache_key = f"{db_path}:{symbol}:{year}"
+    if use_cache and cache_key in _FUND_PORTFOLIO_CACHE:
+        return _FUND_PORTFOLIO_CACHE[cache_key].copy()
+
+    try:
+        df: DataFrame = ak.fund_portfolio_hold_em(symbol=symbol, date=year)
+    except Exception:
+        df = DataFrame()
+
     if use_cache:
-        cache_db_path = f"{get_user_cache_directory()}/ddb/{db_path}.db"
-        cache = SQLiteCache(
-            db_path=cache_db_path, expire=24 * 3600 * 2
-        )  # 创建缓存实例，缓存有效期为两天
-        cache.clear_expired()
-        df = cache.get(symbols_str)
-        if isinstance(df, DataFrame):
-            return df
-        else:
-            try:
-                df: DataFrame = ak.fund_portfolio_hold_em(symbol=symbol, date=year)
-            except Exception:
-                df = DataFrame()
-            cache.set(symbols_str, df)
-            return df
-    else:
-        # 如果不使用缓存，直接发起请求
-        try:
-            df: DataFrame = ak.fund_portfolio_hold_em(symbol=symbol, date=year)
-        except Exception:
-            df = DataFrame()
-        return df
+        _FUND_PORTFOLIO_CACHE[cache_key] = df.copy()
+    return df
+
+
+_FUND_PORTFOLIO_CACHE: Dict[str, DataFrame] = {}
